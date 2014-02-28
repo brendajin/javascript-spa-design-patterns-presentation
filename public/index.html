@@ -15,7 +15,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 	<link rel="stylesheet" href="lib/reveal.js-2.6.1/css/reveal.min.css">
-	<link rel="stylesheet" href="lib/reveal.js-2.6.1/css/theme/sky.css" id="theme">
+	<link rel="stylesheet" href="lib/reveal.js-2.6.1/css/theme/default.css" id="theme">
 
 	<!-- For syntax highlighting -->
 	<link rel="stylesheet" href="lib/zenburn.css">
@@ -33,14 +33,115 @@
 	    <div class="slides">
 	        <section>
 		        <h1>JS Design Patterns</h1>
-		        <h3>for Single Page Applications</h3>
+		        <h2>for Single Page Applications</h2>
 		        <p>
 			        <small>Brenda Jin <a href="http://www.twitter.com/cyberneticlove">@cyberneticlove</a></small>
 		        </p>
 	        </section>
 	        <section>
-	            <section>Vertical Slide 1</section>
-	            <section>Vertical Slide 2</section>
+	        	<h2>Tech Stack</h2>
+	        	<p>Backbone.js, Require.js, Jasmine Unit Testing, Handlebars templates, and Grunt task automation</p>
+	        </section>
+	        <section>
+	        	<h3>Game Plan</h3>
+	        	<ul>
+		        	<li>The Problems</li>
+		        	<li>Architectural Solutions</li>
+		        	<li>Other tools for efficient workflow</li>
+	        	</ul>
+	        </section>
+	        <section>
+	            <section>
+	            	<h1>Backbone.js</h1>
+	            </section>
+	            <section>
+	            	<h2>Problem:</h2>
+	            	<h3>Big (and Growing) Web Applications</h3>
+            	</section>
+            	<section>
+	            	<p>As the application grows, code complexity increases, re-use become harder, code loses flexibility.</p>
+            	</section>
+            	<section>
+            		<h2>Solution:</h2>
+            		<h3>Object-Oriented Development</h3>
+            	</section>
+            	<section>
+            		<p>Create objects that can be re-used, which is the foundational step to establishing other design patterns</p>
+            	</section>
+            	<section>
+            		<h2>Example</h2>
+            		<pre><code>
+        				var mathUtil = {
+        					add: function(num1, num2) {
+        						return parseInt(num1, 10) + parseInt(num2, 10);
+        					}
+        				}
+
+        				var MyModel = {
+        					num1: 1,
+        					num2: 2
+        				}
+
+        				mathUtil.add(MyModel.num1, MyModel.num2);
+        			</code></pre>
+				</section>
+				<section>
+					<h2>Backbone Example</h2>
+					<pre><code>
+						var mathUtil = {
+        					add: function(num1, num2) {
+        						return parseInt(num1, 10) + parseInt(num2, 10);
+        					}
+        				}
+
+        				var MyModel = Backbone.Model.extend({
+        					initialize: function() {
+        						var sum = mathUtil.add(this.num1, this.num2);
+
+        						this.set('sum', sum);
+        					}
+        				})
+
+        				var myModel = new MyModel({num1: 1, num2: 2})
+    				</code></pre>
+            	</section>
+            	<section>
+	            	<h2>Problem:</h2>
+	            	<h3>Dependencies</h3>
+            	</section>
+            	<section>
+            		<h2>Some of the pieces</h2>
+	            	<ul>
+		            	<li>Underscore</li>
+		            	<li>jQuery</li>
+		            	<li>Models</li>
+		            	<li>Collections</li>
+		            	<li>Views</li>
+		            	<li>Router</li>
+		            	<li>Utilities</li>
+		            	<li>Templates</li>
+	            	</ul>
+	            </section>
+	            <section>
+	            	<h2>Solution:</h2>
+	            	<h3>Require.js (AMD) Modules</h3>
+	            	<p>AMD - Asynchronous Module Definition</p>
+	            </section>
+	            <section>
+	            	<h2>Benefits</h2>
+	            	<ul>
+	            		<li>create discrete modules</li>
+	            		<li>explicitly declare dependencies</li>
+	            		<li>load what you need, when you need it</li>
+	            		<li>optimize before deployment</li>
+            		</ul>
+	            </section>
+	            <section>
+	            	<h2>Example</h2>
+	            	<pre><code>
+	            		
+	            	</code></pre>
+	            </section>
 	        </section>
 	    </div>
 	</div>
