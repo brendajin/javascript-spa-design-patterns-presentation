@@ -52,9 +52,6 @@
 	        </section>
 	        <section>
 	            <section>
-	            	<h1>Backbone.js</h1>
-	            </section>
-	            <section>
 	            	<h2>Problem:</h2>
 	            	<h3>Big (and Growing) Web Applications</h3>
             	</section>
@@ -69,25 +66,51 @@
             		<p>Create objects that can be re-used, which is the foundational step to establishing other design patterns</p>
             	</section>
             	<section>
-            		<h2>Example</h2>
-            		<pre><code>
+            		<h2>Example Object Utility</h2>
+            		<pre><code data-trim="true">
         				var mathUtil = {
         					add: function(num1, num2) {
         						return parseInt(num1, 10) + parseInt(num2, 10);
         					}
         				}
 
-        				var MyModel = {
+        				var myModel = {
         					num1: 1,
-        					num2: 2
+        					num2: 2,
+        					sum: function() {
+        						return mathUtil.add(this.num1, this.num2)
+        					}
         				}
 
-        				mathUtil.add(MyModel.num1, MyModel.num2);
+        				myModel.sum();
         			</code></pre>
 				</section>
 				<section>
+					<h2>Example Prototypal Inheritance</h2>
+					<pre><code data-trim="true">
+						var mathUtil = {
+        					add: function(num1, num2) {
+        						return parseInt(num1, 10) + parseInt(num2, 10);
+        					}
+        				}
+
+        				var MyModel = function(args) {
+							this.num1 = args.num1;
+        					this.num2 = args.num2;
+        				}
+
+        				MyModel.prototype = {
+        					sum: function() {
+        						return mathUtil.add(this.num1, this.num2)
+        					}
+        				}
+
+        				var newModel = new MyModel({num1: 1, num2: 2})
+					</code></pre>
+				</section>
+				<section>
 					<h2>Backbone Example</h2>
-					<pre><code>
+					<pre><code data-trim="true">
 						var mathUtil = {
         					add: function(num1, num2) {
         						return parseInt(num1, 10) + parseInt(num2, 10);
@@ -105,6 +128,8 @@
         				var myModel = new MyModel({num1: 1, num2: 2})
     				</code></pre>
             	</section>
+        	</section>
+        	<section>
             	<section>
 	            	<h2>Problem:</h2>
 	            	<h3>Dependencies</h3>
@@ -132,20 +157,176 @@
 	            	<ul>
 	            		<li>create discrete modules</li>
 	            		<li>explicitly declare dependencies</li>
+	            		<li>nest dependencies</li>
+	            		<li>use plain JavaScript files</li>
 	            		<li>load what you need, when you need it</li>
 	            		<li>optimize before deployment</li>
             		</ul>
+            		<!-- Get notes on optimization -->
 	            </section>
 	            <section>
 	            	<h2>Example</h2>
-	            	<pre><code>
-	            		
+	            	<p>Require.js configuration</p>
+	            	<pre><code data-trim="true">
+ &lt;script data-main="path/to/config" src="path/to/require.js"&gt;&lt;/script&gt;
+            		</code></pre>
+	            	<pre><code data-trim="true">
+var paths = {
+	backbone: '../lib/backbone',
+	jquery:'../lib/jquery-1.9.1',
+	underscore: '../lib/underscore',
+	handlebars: '../lib/handlebars.runtime',
+	mathUtil: 'util/mathUtil'
+}
+
+var shim = {
+	Backbone: {
+		deps: ['jquery', 'underscore'],
+		exports: 'Backbone'
+	},
+	underscore: {
+		exports: "_"
+	},
+	handlebars: {
+		exports: 'Handlebars'
+	}
+}
+
+require.config({
+    paths: paths,
+    shim: shim
+});
 	            	</code></pre>
 	            </section>
+	            <section>
+	            	<h2>Example</h2>
+	            	<p>mathUtil as an AMD Module</p>
+	            	<pre><code data-trim="true">
+	            		define('mathUtil', function() {
+	            			var mathUtil = {
+	        					add: function(num1, num2) {
+	        						return parseInt(num1, 10) + parseInt(num2, 10);
+	        					}
+	        				}
+
+	        				return mathUtil;
+	            		})
+	            	</code></pre>
+            	</section>
+	            <section>
+	            	<h2>Example</h2>
+	            	<p>mathUtil as a dependency</p>
+	            	<pre><code data-trim="true">
+define(['mathUtil', 'Backbone'], function(mathUtil, Backbone) {
+	var MyModel = Backbone.Model.extend({
+		initialize: function() {
+			var sum = mathUtil.add(this.num1, this.num2);
+
+			this.set('sum', sum);
+		}
+	})
+
+	var myModel = new MyModel({num1: 1, num2: 2})
+}
+	            	</code></pre>
+	            </section>
+	        </section>
+	        <section>
+	        	<section>
+	        		<h2>Problem:</h2>
+	        		<h3>code Re-use is low</h3>
+	        	</section>
+	        	<section>
+	        		<h2>Solution 1</h2>
+	        		<h3>Composition</h3>
+	        	</section>
+	        	<section>
+	        		<h2>Example</h2>
+	        		<pre><code data-trim="true">
+define(['mathUtil', 'Backbone'], function(mathUtil, Backbone) {
+	var MyModel = Backbone.Model.extend({
+		initialize: function() {
+			var sum = mathUtil.add(this.num1, this.num2);
+
+			this.set('sum', sum);
+		}
+	})
+
+	var myModel = new MyModel({num1: 1, num2: 2})
+}
+	            	</code></pre>
+	        	</section>
+	        	<section>
+	        		<h2>Solution 2</h2>
+	        		<h3>Inheritance</h3>
+	        	</section>
+	        	<section>
+		        	<h2>Example</h2>
+		        	<pre><code data-trim="true">
+var BaseView = Backbone.View.extend({
+	
+})
+
+var DropDownView = BaseView.extend({
+	
+})
+		        	</code></pre>
+	        	</section>
+        	</section>
+        	<section>
+        		<section>
+        			<h2>Problem</h2>
+        			<h3>Communicating between modules and dependencies</h3>
+        		</section>
+	        	<section>
+	        		<h2>Solution</h2>
+	        		<h3>Publish/Subscribe</h3>
+	        	</section>
+	        	<section>
+		        	<h2>Example</h2>
+		        	<pre><code data-trim="true">
+
+
+		        	</code></pre>
+	        	</section>
+	        </section>
+	        <section>
+	        	<section>
+	        		<h2>Other tools</h2>
+	        	</section>
+	        	<section>
+	        		<h2>Grunt</h2>
+	        		<p>(or your automation tool of choice)
+        		</section>
+        		<section>
+        			<h2>Uses</h2>
+        			<ul>
+        				<li>Sass compilation</li>
+        				<li>Template compilation</li>
+        				<li>Beautify/Uglify</li>
+        				<li>Quality and coverage</li>
+        				<li>...and many more</li>
+        				<!-- insert link to grunt -->
+    				</ul>
+        		</section>
+        		<section>
+        			<h2>Jasmine</h2>
+        			<p>(or your unit testing suite of choice)
+        		</section>
+        		<section>
+        			<pre><code data-trim="true">
+describe("my model", function() {
+	it("should have a default price value of 0", function() {
+		expect(myModel.price).toEqual(0)
+	})
+})
+        			</code></pre>
+        		</section>
 	        </section>
 	    </div>
 	</div>
 	<script src="lib/reveal.js-2.6.1/js/reveal.min.js"></script>
+	<script src="lib/reveal.js-2.6.1/plugin/highlight/highlight.js"></script>
 	<script>
 		// Full list of configuration options available here:
 		// https://github.com/hakimel/reveal.js#configuration
@@ -158,6 +339,9 @@
 			theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
 			transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
+			dependences: [
+				{src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+			]
 			// Parallax scrolling
 			// parallaxBackgroundImage: 'img/bg.jpg',
 			// parallaxBackgroundSize: '716px 762px'
