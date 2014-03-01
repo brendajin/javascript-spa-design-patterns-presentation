@@ -276,7 +276,7 @@ var DropDownView = BaseView.extend({
         	<section>
         		<section>
         			<h2>Problem</h2>
-        			<h3>Communicating between modules and dependencies</h3>
+        			<h3>Communicating between modules</h3>
         		</section>
 	        	<section>
 	        		<h2>Solution</h2>
@@ -310,10 +310,50 @@ var DropDownView = BaseView.extend({
     				</ul>
         		</section>
         		<section>
+        			<h2>Requirements</h2>
+        			<ul>
+        				<li>node.js for npm <a href="nodejs.org">nodejs.org</a></li>
+        				<li>Grunt CLI <pre><code>$ npm install -g grunt-cli</code></pre></li>
+    				</ul>
+        		</section>
+        		<section>
+        			<h2>Example</h2>
+        			<h3>Gruntfile.js</h3>
+	        		<pre><code data-trim="true">
+var path = require('path');
+
+module.exports = function(grunt) {
+  grunt.initConfig({
+    // Handlebars compilation task
+    handlebars: {
+      compile: {
+        options: {
+          // Remove folder path name from file
+          namespace: "Handlebars.templates",
+          amd: true
+        },
+        files: {
+          'src/templates/compiled/myTemplate.handlebars.js':'src/templates/raw/myTemplate.handlebars'
+        }
+      }
+    }
+  });
+
+  grunt.loadNpmTasks('grunt-contrib-handlebars');
+
+  grunt.registerTask('default', ['handlebars']);
+  
+};
+
+
+        		</code></pre>
+        		</section>
+        		<section>
         			<h2>Jasmine</h2>
         			<p>(or your unit testing suite of choice)
         		</section>
         		<section>
+        			<h2>Example</h2>
         			<pre><code data-trim="true">
 describe("my model", function() {
 	it("should have a default price value of 0", function() {
@@ -322,6 +362,15 @@ describe("my model", function() {
 })
         			</code></pre>
         		</section>
+	        </section>
+	        <section>
+		        <h2>Resources</h2>
+		        <ul>
+		        	<li>Grunt.js <a href="http://gruntjs.com/" target="_blank">http://gruntjs.com/</a></li>
+		        	<li>Jasmine Spec Runner <a href="http://jasmine.github.io/">http://jasmine.github.io/</a></li>
+		        	<li>Require.js <a href="http://requirejs.org/">http://requirejs.org/</a></li>
+		        	<li>Backbone, Require, Handlebars starter repo <a href="https://github.com/brendajin/backbone-require-handlebars-example">on Github</a>
+	        	</ul>
 	        </section>
 	    </div>
 	</div>
