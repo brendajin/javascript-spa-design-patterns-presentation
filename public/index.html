@@ -38,11 +38,21 @@
 		        <p><a href="http://devfest.divshot.io/">http://devfest.divshot.io/</a></p>
 	        </section>
 	        <section>
-	        	<p><small>Brenda Jin <a href="http://www.twitter.com/cyberneticlove">@cyberneticlove</a></small></p>
+	        	<p>
+		        	<small>Brenda Jin <a href="http://www.twitter.com/cyberneticlove">@cyberneticlove</a></small>
+	        	</p>
+						<aside class="notes">
+							Very excited to be here
+							First Time in Istanbul
+							Please let me know if I am speaking too quickly, and I'll save some time for questions
+						</aside>
 	        </section>
 	        <section>
 	        	<h2>Tech Stack</h2>
 	        	<p>Backbone.js, Require.js, Jasmine Unit Testing, Handlebars templates, and Grunt task automation</p>
+						<aside class="notes">
+							ask audience about familiarity with Backbone.js
+						</aside>
 	        </section>
 	        <section>
 	        	<h3>Game Plan</h3>
@@ -51,6 +61,11 @@
 		        	<li>Architectural Solutions</li>
 		        	<li>Other tools for efficient workflow</li>
 	        	</ul>
+						<aside class="notes">
+							problems are the ones that I've encountered and seen other people encounter as they get started with their SPAs
+							patterns that evolve
+							put us on the path to re-use and flexibility
+						</aside>
 	        </section>
 	        <section>
 	            <section>
@@ -60,6 +75,11 @@
             	<section>
 	            	<p>As the application grows, code complexity increases, re-use become harder, code loses flexibility.</p>
             	</section>
+							<aside class="notes">
+								What people think of as a "modern" web page is usually a web application
+								A lot of hackathons on single page apps and static web apps
+								Any favorite SPAs?
+							</aside>
             	<section>
             		<h2>Solution</h2>
             		<h3>Object-Oriented Development</h3>
@@ -68,7 +88,8 @@
             		<p>Create objects that can be re-used, which is the foundational step to establishing other design patterns</p>
             	</section>
             	<section>
-            		<h2>Example Object Utility</h2>
+            		<h2>Example Object</h2>
+            		<p>Loosely coupled</p>
             		<pre><code data-trim="true">
 var mathUtil = {
 	add: function(num1, num2) {
@@ -86,10 +107,11 @@ var myModel = {
 
 myModel.sum(); // returns 3
         			</code></pre>
-				</section>
-				<section>
-					<h2>Example Prototypal Inheritance</h2>
-					<pre><code data-trim="true">
+						</section>
+					<section>
+						<h2>Example</h2>
+						<p>Prototype</p>
+						<pre><code data-trim="true">
 var mathUtil = {
 	add: function(num1, num2) {
 		return parseInt(num1, 10) + parseInt(num2, 10);
@@ -108,13 +130,14 @@ MyModel.prototype = {
 }
 
 var newModel = new MyModel({num1: 1, num2: 2}) // returns new object instance
-					</code></pre>
-					<aside class="notes">
-					method that is applied is stored in memory just once, instead of being created over and over
-				</aside>
-				</section>
+						</code></pre>
+						<aside class="notes">
+							method that is applied is stored in memory just once, instead of being created over and over
+						</aside>
+					</section>
 				<section>
-					<h2>Backbone Example</h2>
+					<h2>Example</h2>
+					<p>Backbone</p>
 					<pre><code data-trim="true">
 var mathUtil = {
 	add: function(num1, num2) {
@@ -132,8 +155,8 @@ var MyModel = Backbone.Model.extend({
 
 var myModel = new MyModel({num1: 1, num2: 2})
     				</code></pre>
-            	</section>
         	</section>
+      	</section>
         	<section>
             	<section>
 	            	<h2>Problem</h2>
@@ -167,7 +190,6 @@ var myModel = new MyModel({num1: 1, num2: 2})
 	            		<li>load what you need, when you need it</li>
 	            		<li><a href="http://requirejs.org/docs/optimization.html">optimize</a>  before deployment</li>
             		</ul>
-            		<!-- Get notes on optimization -->
 	            </section>
 	            <section>
 	            	<h2>Example</h2>
@@ -221,6 +243,9 @@ define([], function() {
 	return mathUtil;
 })
 	            	</code></pre>
+							<aside class="notes">
+							encapsulation, lets you vary each module independently
+	            </aside>
             	</section>
 	            <section>
 	            	<h2>Example</h2>
@@ -240,6 +265,7 @@ define(['mathUtil', 'Backbone'], function(mathUtil, Backbone) {
 	            	</code></pre>
 							<aside class="notes">
 								walk through arguments and dependency declaration
+								loosely coupled
 							</aside>
 	            </section>
 	        </section>
