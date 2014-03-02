@@ -109,6 +109,9 @@ MyModel.prototype = {
 
 var newModel = new MyModel({num1: 1, num2: 2}) // returns new object instance
 					</code></pre>
+					<aside class="notes">
+					method that is applied is stored in memory just once, instead of being created over and over
+				</aside>
 				</section>
 				<section>
 					<h2>Backbone Example</h2>
@@ -235,6 +238,9 @@ define(['mathUtil', 'Backbone'], function(mathUtil, Backbone) {
 	var myModel = new MyModel({num1: 1, num2: 2})
 }
 	            	</code></pre>
+							<aside class="notes">
+								walk through arguments and dependency declaration
+							</aside>
 	            </section>
 	        </section>
 	        <section>
@@ -314,7 +320,7 @@ object.listenTo(other, event, callback);
 	            	<div class="fragment roll-in">
 			        	<pre><code data-trim="true">
 // EventAggregator.js
-define(['backbone', 'underscore'], function (Backbone, _) {
+define(['Backbone', 'underscore'], function (Backbone, _) {
 	var eventAggregator = _.extend({}, Backbone.Events); 
 	return eventAggregator;
 });
@@ -422,6 +428,9 @@ describe("my model", function() {
 	})
 })
         			</code></pre>
+							<aside class="notes">
+	        			design before you write; cracking the coding interview - whitepaper and draw; measure twice cut once
+        			</aside>
         		</section>
 	        </section>
 	        <section>
