@@ -26,6 +26,7 @@
 	<!--[if lt IE 9]>
 	<script src="lib/js/html5shiv.js"></script>
 	<![endif]-->
+	<script data-main="main" src="/lib/require.js"></script>
 </head>
 
 <body>
@@ -82,7 +83,7 @@
         					}
         				}
 
-        				myModel.sum();
+        				myModel.sum(); // returns 3
         			</code></pre>
 				</section>
 				<section>
@@ -105,7 +106,7 @@
         					}
         				}
 
-        				var newModel = new MyModel({num1: 1, num2: 2})
+        				var newModel = new MyModel({num1: 1, num2: 2}) // returns new object instance
 					</code></pre>
 				</section>
 				<section>
@@ -160,7 +161,7 @@
 	            		<li>nest dependencies</li>
 	            		<li>use plain JavaScript files</li>
 	            		<li>load what you need, when you need it</li>
-	            		<li>optimize before deployment</li>
+	            		<li><a href="http://requirejs.org/docs/optimization.html">optimize</a>  before deployment</li>
             		</ul>
             		<!-- Get notes on optimization -->
 	            </section>
@@ -202,7 +203,7 @@ require.config({
 	            	<h2>Example</h2>
 	            	<p>mathUtil as an AMD Module</p>
 	            	<pre><code data-trim="true">
-	            		define('mathUtil', function() {
+	            		define([], function() {
 	            			var mathUtil = {
 	        					add: function(num1, num2) {
 	        						return parseInt(num1, 10) + parseInt(num2, 10);
@@ -234,7 +235,7 @@ define(['mathUtil', 'Backbone'], function(mathUtil, Backbone) {
 	        <section>
 	        	<section>
 	        		<h2>Problem:</h2>
-	        		<h3>code Re-use is low</h3>
+	        		<h3>low code Re-use</h3>
 	        	</section>
 	        	<section>
 	        		<h2>Solution 1</h2>
@@ -264,11 +265,15 @@ define(['mathUtil', 'Backbone'], function(mathUtil, Backbone) {
 		        	<h2>Example</h2>
 		        	<pre><code data-trim="true">
 var BaseView = Backbone.View.extend({
-	
+	register: function() {
+		// tell the Mediator that I'm here
+	}
 })
 
 var DropDownView = BaseView.extend({
-	
+	initialize: function() {
+		this.register();
+	}
 })
 		        	</code></pre>
 	        	</section>
@@ -284,11 +289,42 @@ var DropDownView = BaseView.extend({
 	        	</section>
 	        	<section>
 		        	<h2>Example</h2>
+					<p>custom or built-in Backbone Events</p>
+		        	<pre><code>
+	// built-in Backbone events
+	view.listenTo(model, 'change', view.render);
+
+	// use for custom events
+	object.listenTo(other, event, callback);
+					</code></pre>
+				</section>
+		        <section>
+		        	<h3>Event Aggregator</h3>
+		        	<p>Use a module to extend the Backbone Events</p>
 		        	<pre><code data-trim="true">
-
-
+// EventAggregator.js
+define(['backbone', 'underscore'], function (Backbone, _) {
+	var channel = _.extend({}, Backbone.Events); 
+	return channel;
+});
 		        	</code></pre>
-	        	</section>
+		        	<pre><code data-trim="true">
+require(['EventAggregator'], function (eventAggregator) {
+    eventAggregator.on('app:event', function (data) {
+    	// do something
+    });
+});
+					</code></pre>
+					<pre><code data-trim="true">
+require(['EventAggregator'], function (eventAggregator) {
+    eventAggregator.trigger('app:event', {data: 'myData'});
+});
+		        	</code></pre>
+				 <aside class="notes">
+					event and data standardization
+					prevent event collisions
+				</aside>
+		        </section>
 	        </section>
 	        <section>
 	        	<section>
@@ -345,8 +381,6 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['handlebars']);
   
 };
-
-
         		</code></pre>
         		</section>
         		<section>
@@ -357,7 +391,7 @@ module.exports = function(grunt) {
         			<h2>Example</h2>
         			<pre><code data-trim="true">
 describe("my model", function() {
-	it("should have a default price value of 0", function() {
+	it("should have a default price of 0", function() {
 		expect(myModel.price).toEqual(0)
 	})
 })
@@ -372,28 +406,31 @@ describe("my model", function() {
 		        	<li>Jasmine Spec Runner <a href="http://jasmine.github.io/">http://jasmine.github.io/</a></li>
 		        	<li>Gulp.js <a href="http://gulpjs.com/">http://gulpjs.com/</a></li>
 		        	<li>Fez <a href="http://fez.github.io/">http://fez.github.io/</a></li>
+		        	<li><a href="http://addyosmani.github.io/backbone-fundamentals/#event-aggregators-and-mediators">Developing Backbone.js Applications</a> by Addy Osmani</li>
+		        	<li>Backbone Marionette <a href="http://marionettejs.com/">http://marionettejs.com/</a></li>
 		        	<li>Backbone, Require, Handlebars starter repo <a href="https://github.com/brendajin/backbone-require-handlebars-example">on Github</a></li>
 	        	</ul>
 	        </section>
 	    </div>
 	</div>
-	<script src="lib/reveal.js-2.6.1/js/reveal.min.js"></script>
 	<script src="lib/reveal.js-2.6.1/plugin/highlight/highlight.js"></script>
+	<script src="lib/reveal.js-2.6.1/js/reveal.min.js"></script>
 	<script>
 		// Full list of configuration options available here:
 		// https://github.com/hakimel/reveal.js#configuration
 		Reveal.initialize({
-			controls: true,
+			// controls: true,
 			progress: true,
 			history: true,
 			center: true,
 
-			theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-			transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+			// theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+			// transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
-			dependences: [
-				{src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-			]
+			// Syntax highlight for <code> elements
+	         src: 'lib/reveal.js-2.6.1/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad() }
+
+			// ]
 			// Parallax scrolling
 			// parallaxBackgroundImage: 'img/bg.jpg',
 			// parallaxBackgroundSize: '716px 762px'
