@@ -70,64 +70,64 @@
             	<section>
             		<h2>Example Object Utility</h2>
             		<pre><code data-trim="true">
-        				var mathUtil = {
-        					add: function(num1, num2) {
-        						return parseInt(num1, 10) + parseInt(num2, 10);
-        					}
-        				}
+var mathUtil = {
+	add: function(num1, num2) {
+		return parseInt(num1, 10) + parseInt(num2, 10);
+	}
+}
 
-        				var myModel = {
-        					num1: 1,
-        					num2: 2,
-        					sum: function() {
-        						return mathUtil.add(this.num1, this.num2)
-        					}
-        				}
+var myModel = {
+	num1: 1,
+	num2: 2,
+	sum: function() {
+		return mathUtil.add(this.num1, this.num2)
+	}
+}
 
-        				myModel.sum(); // returns 3
+myModel.sum(); // returns 3
         			</code></pre>
 				</section>
 				<section>
 					<h2>Example Prototypal Inheritance</h2>
 					<pre><code data-trim="true">
-						var mathUtil = {
-        					add: function(num1, num2) {
-        						return parseInt(num1, 10) + parseInt(num2, 10);
-        					}
-        				}
+var mathUtil = {
+	add: function(num1, num2) {
+		return parseInt(num1, 10) + parseInt(num2, 10);
+	}
+}
 
-        				var MyModel = function(args) {
-							this.num1 = args.num1;
-        					this.num2 = args.num2;
-        				}
+var MyModel = function(args) {
+	this.num1 = args.num1;
+	this.num2 = args.num2;
+}
 
-        				MyModel.prototype = {
-        					sum: function() {
-        						return mathUtil.add(this.num1, this.num2)
-        					}
-        				}
+MyModel.prototype = {
+	sum: function() {
+		return mathUtil.add(this.num1, this.num2)
+	}
+}
 
-        				var newModel = new MyModel({num1: 1, num2: 2}) // returns new object instance
+var newModel = new MyModel({num1: 1, num2: 2}) // returns new object instance
 					</code></pre>
 				</section>
 				<section>
 					<h2>Backbone Example</h2>
 					<pre><code data-trim="true">
-						var mathUtil = {
-        					add: function(num1, num2) {
-        						return parseInt(num1, 10) + parseInt(num2, 10);
-        					}
-        				}
+var mathUtil = {
+	add: function(num1, num2) {
+		return parseInt(num1, 10) + parseInt(num2, 10);
+	}
+}
 
-        				var MyModel = Backbone.Model.extend({
-        					initialize: function() {
-        						var sum = mathUtil.add(this.num1, this.num2);
+var MyModel = Backbone.Model.extend({
+	initialize: function() {
+		var sum = mathUtil.add(this.num1, this.num2);
 
-        						this.set('sum', sum);
-        					}
-        				})
+		this.set('sum', sum);
+	}
+})
 
-        				var myModel = new MyModel({num1: 1, num2: 2})
+var myModel = new MyModel({num1: 1, num2: 2})
     				</code></pre>
             	</section>
         	</section>
@@ -169,10 +169,13 @@
 	            <section>
 	            	<h2>Example</h2>
 	            	<p>Require.js configuration</p>
+	            	<div class="fragment roll-in">
 	            	<pre><code data-trim="true">
  &lt;script data-main="path/to/config" src="path/to/require.js"&gt;&lt;/script&gt;
-            		</code></pre>
-	            	<pre><code data-trim="true">
+	            		</code></pre>
+            		</div>
+            		<div class="fragment roll-in">
+		            	<pre><code data-trim="true">
 var paths = {
 	backbone: '../lib/backbone',
 	jquery:'../lib/jquery-1.9.1',
@@ -198,21 +201,22 @@ require.config({
     paths: paths,
     shim: shim
 });
-	            	</code></pre>
+		            	</code></pre>
+	            	</div>
 	            </section>
 	            <section>
 	            	<h2>Example</h2>
 	            	<p>mathUtil as an AMD Module</p>
 	            	<pre><code data-trim="true">
-	            		define([], function() {
-	            			var mathUtil = {
-	        					add: function(num1, num2) {
-	        						return parseInt(num1, 10) + parseInt(num2, 10);
-	        					}
-	        				}
+define([], function() {
+	var mathUtil = {
+		  add: function(num1, num2) {
+			return parseInt(num1, 10) + parseInt(num2, 10);
+		  }
+	}
 
-	        				return mathUtil;
-	            		})
+	return mathUtil;
+})
 	            	</code></pre>
             	</section>
 	            <section>
@@ -221,11 +225,11 @@ require.config({
 	            	<pre><code data-trim="true">
 define(['mathUtil', 'Backbone'], function(mathUtil, Backbone) {
 	var MyModel = Backbone.Model.extend({
-		initialize: function() {
+		  initialize: function() {
 			var sum = mathUtil.add(this.num1, this.num2);
 
 			this.set('sum', sum);
-		}
+		  }
 	})
 
 	var myModel = new MyModel({num1: 1, num2: 2})
@@ -247,11 +251,11 @@ define(['mathUtil', 'Backbone'], function(mathUtil, Backbone) {
 	        		<pre><code data-trim="true">
 define(['mathUtil', 'Backbone'], function(mathUtil, Backbone) {
 	var MyModel = Backbone.Model.extend({
-		initialize: function() {
+		  initialize: function() {
 			var sum = mathUtil.add(this.num1, this.num2);
 
 			this.set('sum', sum);
-		}
+		  }
 	})
 
 	var myModel = new MyModel({num1: 1, num2: 2})
@@ -291,36 +295,47 @@ var DropDownView = BaseView.extend({
 	        	<section>
 		        	<h2>Example</h2>
 					<p>custom or built-in Backbone Events</p>
-		        	<pre><code>
-	// built-in Backbone events
-	view.listenTo(model, 'change', view.render);
-
-	// use for custom events
-	object.listenTo(other, event, callback);
-					</code></pre>
+	            	<div class="fragment roll-in">
+			        	<pre><code>
+// built-in Backbone events
+view.listenTo(model, 'change', view.render);
+						</code></pre>
+					</div>
+	            	<div class="fragment roll-in">
+						<pre><code>
+// use for custom events
+object.listenTo(other, event, callback);
+						</code></pre>
+					</div>
 				</section>
 		        <section>
 		        	<h3>Event Aggregator</h3>
 		        	<p>Use a module to extend the Backbone Events</p>
-		        	<pre><code data-trim="true">
+	            	<div class="fragment roll-in">
+			        	<pre><code data-trim="true">
 // EventAggregator.js
 define(['backbone', 'underscore'], function (Backbone, _) {
-	var channel = _.extend({}, Backbone.Events); 
-	return channel;
+	var eventAggregator = _.extend({}, Backbone.Events); 
+	return eventAggregator;
 });
-		        	</code></pre>
-		        	<pre><code data-trim="true">
+			        	</code></pre>
+		        	</div>
+	            	<div class="fragment roll-in">
+			        	<pre><code data-trim="true">
 require(['EventAggregator'], function (eventAggregator) {
     eventAggregator.on('app:event', function (data) {
-    	// do something
+    	  // do something
     });
 });
-					</code></pre>
-					<pre><code data-trim="true">
+						</code></pre>
+					</div>
+	            	<div class="fragment roll-in">
+						<pre><code data-trim="true">
 require(['EventAggregator'], function (eventAggregator) {
     eventAggregator.trigger('app:event', {data: 'myData'});
 });
-		        	</code></pre>
+			        	</code></pre>
+		        	</div>
 				 <aside class="notes">
 					event and data standardization
 					prevent event collisions
@@ -357,32 +372,42 @@ require(['EventAggregator'], function (eventAggregator) {
         		<section>
         			<h2>Example</h2>
         			<h3>Gruntfile.js</h3>
-	        		<pre><code data-trim="true">
+				  		<div class="fragment roll-in">
+		        		<pre><code data-trim="true">
 var path = require('path');
 
 module.exports = function(grunt) {
-  grunt.initConfig({
-    // Handlebars compilation task
-    handlebars: {
-      compile: {
-        options: {
-          // Remove folder path name from file
-          namespace: "Handlebars.templates",
-          amd: true
-        },
-        files: {
-          'src/templates/compiled/myTemplate.handlebars.js':'src/templates/raw/myTemplate.handlebars'
-        }
-      }
-    }
-  });
+	grunt.initConfig({
+		// Handlebars compilation task
+		handlebars: {
+			compile: {
+				options: {
+					// Remove folder path name from file
+					processName: function (fileName) {
+						return path.basename(fileName, '.handlebars');
+					        },
+					namespace: "Handlebars.templates",
+					amd: true
+					        },
+				files: {
+					'src/templates/compiled/myTemplate.handlebars.js':'src/templates/raw/myTemplate.handlebars'
+		      }
+		    }
+		  }
+	});
 
-  grunt.loadNpmTasks('grunt-contrib-handlebars');
+	grunt.loadNpmTasks('grunt-contrib-handlebars');
 
-  grunt.registerTask('default', ['handlebars']);
-  
+	grunt.registerTask('default', ['handlebars']);
+
 };
-        		</code></pre>
+				  		</code></pre>
+			  		</div>
+			  		<div class="fragment roll-in">
+			  			<pre><code>
+$ grunt handlebars
+			  			</code></pre>
+			  		</div>
         		</section>
         		<section>
         			<h2>Jasmine</h2>
@@ -393,7 +418,7 @@ module.exports = function(grunt) {
         			<pre><code data-trim="true">
 describe("my model", function() {
 	it("should have a default price of 0", function() {
-		expect(myModel.price).toEqual(0)
+		  expect(myModel.price).toEqual(0)
 	})
 })
         			</code></pre>
@@ -414,27 +439,31 @@ describe("my model", function() {
 	        </section>
 	    </div>
 	</div>
-	<script src="lib/reveal.js-2.6.1/plugin/highlight/highlight.js"></script>
+	<script src="lib/reveal.js-2.6.1/lib/js/head.min.js"></script>
 	<script src="lib/reveal.js-2.6.1/js/reveal.min.js"></script>
 	<script>
 		// Full list of configuration options available here:
 		// https://github.com/hakimel/reveal.js#configuration
 		Reveal.initialize({
-			// controls: true,
+			controls: true,
 			progress: true,
 			history: true,
 			center: true,
+			fragments: true,
 
-			// theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-			// transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+			theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+			transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
 			// Syntax highlight for <code> elements
-	         src: 'lib/reveal.js-2.6.1/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad() }
-
-			// ]
-			// Parallax scrolling
-			// parallaxBackgroundImage: 'img/bg.jpg',
-			// parallaxBackgroundSize: '716px 762px'
+			dependencies: [
+		        // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+		        { src: 'lib/reveal.js-2.6.1/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+				{ src: 'lib/reveal.js-2.6.1/plugin/highlight/highlight.js', async: true, callback: function() { 
+					hljs.initHighlightingOnLoad();
+				} },
+				{ src: 'lib/reveal.js-2.6.1/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+				{ src: 'lib/reveal.js-2.6.1/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+			]
 		});
 
 	</script>
